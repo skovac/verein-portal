@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src"
+    "paths": {
+      "@backend-calls" : "./src/backend-calls"
+    }
+  },
+  "include": ["src"]
+}
