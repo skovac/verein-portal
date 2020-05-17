@@ -2,6 +2,7 @@
 
 /public/images
 /public/avatars
+/public/favicon
 
 # dependencies
 /node_modules
