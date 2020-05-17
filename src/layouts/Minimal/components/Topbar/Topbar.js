@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -20,7 +20,7 @@ const Topbar = props => {
     <AppBar
       {...rest}
       className={clsx(classes.root, className)}
-      color="primary"
+      color="secondary"
       position="fixed"
     >
       <Toolbar>
@@ -31,6 +31,7 @@ const Topbar = props => {
           />
         </RouterLink>
       </Toolbar>
+      <Divider />
     </AppBar>
   );
 };

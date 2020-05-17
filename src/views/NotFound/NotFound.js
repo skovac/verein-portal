@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(4)
   },
   content: {
-    paddingTop: 150,
+    paddingTop: 50,
     textAlign: 'center'
   },
   image: {
@@ -35,16 +35,16 @@ const NotFound = () => {
         >
           <div className={classes.content}>
             <Typography variant="h1">
-              404: The page you are looking for isn’t here
+              404: Diese Seite existiert nicht. Aber hier ist ein Bier.
             </Typography>
             <Typography variant="subtitle2">
-              You either tried some shady route or you came here by mistake.
-              Whichever it is, try using the navigation
+              Falls diese Seite existieren sollte kontaktiere bitte Bbr. Sébastien Kovacs um dies zu melden.
             </Typography>
             <img
               alt="Under development"
               className={classes.image}
-              src="/images/undraw_page_not_found_su7k.svg"
+              src="/images/beer.png"
+              style={{width: "40%"}}
             />
           </div>
         </Grid>

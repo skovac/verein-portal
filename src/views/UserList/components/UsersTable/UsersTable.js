@@ -41,8 +41,54 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const showUser = (user, search, classes, selectedUsers, handleSelectOne) => {
+  const lcUsername = user.name.toLowerCase();
+  const lcSearch = search.toLowerCase();
+  if (lcUsername.includes(lcSearch) === false && search !== "") {
+    return <></>;
+  }
+
+  return (
+    <TableRow
+      className={classes.tableRow}
+      hover
+      key={user.id}
+      selected={selectedUsers.indexOf(user.id) !== -1}
+    >
+      <TableCell padding="checkbox">
+        <Checkbox
+          checked={selectedUsers.indexOf(user.id) !== -1}
+          color="primary"
+          onChange={event => handleSelectOne(event, user.id)}
+          value="true"
+        />
+      </TableCell>
+      <TableCell>
+        <div className={classes.nameContainer}>
+          <Avatar
+            className={classes.avatar}
+            src={user.avatarUrl}
+          >
+            {getInitials(user.name)}
+          </Avatar>
+          <Typography variant="body1">{user.name}</Typography>
+        </div>
+      </TableCell>
+      <TableCell>{user.email}</TableCell>
+      <TableCell>
+        {user.address.city}, {user.address.state},{' '}
+        {user.address.country}
+      </TableCell>
+      <TableCell>{user.phone}</TableCell>
+      <TableCell>
+        {moment(user.createdAt).format('DD/MM/YYYY')}
+      </TableCell>
+    </TableRow>
+  );
+};
+
 const UsersTable = props => {
-  const { className, users, ...rest } = props;
+  const { className, users, search, ...rest } = props;
 
   const classes = useStyles();
 
@@ -109,7 +155,7 @@ const UsersTable = props => {
                       color="primary"
                       indeterminate={
                         selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
+                          selectedUsers.length < users.length
                       }
                       onChange={handleSelectAll}
                     />
@@ -122,43 +168,7 @@ const UsersTable = props => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
-                        color="primary"
-                        onChange={event => handleSelectOne(event, user.id)}
-                        value="true"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.nameContainer}>
-                        <Avatar
-                          className={classes.avatar}
-                          src={user.avatarUrl}
-                        >
-                          {getInitials(user.name)}
-                        </Avatar>
-                        <Typography variant="body1">{user.name}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.address.city}, {user.address.state},{' '}
-                      {user.address.country}
-                    </TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                    <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {users.slice(0, rowsPerPage).map(user => (showUser(user, search, classes, selectedUsers, handleSelectOne)))}
               </TableBody>
             </Table>
           </div>
