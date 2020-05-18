@@ -1,35 +1,48 @@
-let isAuth = false;
+import { loginStatus } from '../../util/enums';
 
-export function isSignedIn() {
-  /*fetch('http://localhost:1831/is-logged-in').then(res => {
-    if (res.status === 200) {
-      isAuth = true;
+export function logout(updateStateIsSignedIn) {
+  fetch('http://localhost:1831/logout', {
+    method: 'GET',
+    credentials: 'include'
+  }).then(() => {
+    if (updateStateIsSignedIn) {
+      updateStateIsSignedIn(loginStatus.signedOut);
     } else {
-      isAuth = false;
-  }});*/
-  return isAuth;
+      window.location.reload();
+    }
+  });
+}
+
+export function isSignedIn(updateStateIsSignedIn) {
+  fetch('http://localhost:1831/is-logged-in', {
+    method: 'GET',
+    credentials: 'include',
+  }).then(res => {
+    if (res.status === 200) {
+      updateStateIsSignedIn(loginStatus.signedIn);
+    } else {
+      updateStateIsSignedIn(loginStatus.signedOut);
+    }
+  });
 };
 
-export function signIn(email, password, confirmLogin, setLoginFailed) {
+export function signIn(email, password, updateStateIsSignedIn, setLoginFailed) {
   var myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   const fields = {
     "username": email,
     "password": password
   };
-  console.log(fields);
-
   fetch('http://localhost:1831/login', {
     method: 'POST',
     headers: myHeaders,
     mode: 'cors',
+    credentials: 'include',
     cache: 'default',
     body: JSON.stringify(fields)
   }).then(res => {
-    console.log(res);
     if (res.status === 200) {
-      isAuth = true;
-      confirmLogin();
+      updateStateIsSignedIn(loginStatus.signedIn);
     } else {
       setLoginFailed(true);
     }

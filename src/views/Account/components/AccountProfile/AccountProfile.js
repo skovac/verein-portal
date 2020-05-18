@@ -37,9 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 const AccountProfile = props => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
-
   const user = getOwnInfo(); 
 
   return (
@@ -86,13 +84,24 @@ const AccountProfile = props => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          className={classes.uploadButton}
-          color="primary"
-          variant="text"
-        >
-          Bild hochladen
-        </Button>
+        <input
+          accept="image/*"
+          className={classes.input}
+          style={{ display: 'none' }}
+          id="raised-button-file"
+          multiple
+          type="file"
+        />
+        <label htmlFor="raised-button-file">
+          <Button
+            className={classes.uploadButton}
+            color="primary"
+            variant="text"
+            component="span"
+          >
+            Bild hochladen
+          </Button>
+        </label>
         <Button variant="text">Bild löschen</Button>
       </CardActions>
     </Card>

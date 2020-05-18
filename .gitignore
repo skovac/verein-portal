@@ -3,6 +3,7 @@
 /public/images
 /public/avatars
 /public/favicon
+/backend/public
 
 # dependencies
 /node_modules

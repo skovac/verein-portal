@@ -51,72 +51,72 @@ export const SignIn = props => {
   const [loginFailed, setLoginFailed] = useState(false);
 
   const trySignin = () => {
-    signIn(email, password, props.confirmLogin, setLoginFailed);
+    signIn(email, password, props.updateStateIsSignedIn, setLoginFailed);
   };
 
   return (
     <Box  overflow="hidden">
-        { loginFailed ? loginFailedErrorMessage() : <></> }
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <img
-              alt="wappen.svg"
-              src="/images/logos/logo--white.svg"
-              width="250"
+      { loginFailed ? loginFailedErrorMessage() : <></> }
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <img
+            alt="wappen.svg"
+            src="/images/logos/logo--white.svg"
+            width="250"
+          />
+          <form className={classes.form} noValidate method='POST' action='/login'>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Adresse"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={event => { setEmail(event.target.value) }}
+              onKeyDown={event => { if (event.keyCode === 13) { trySignin(email, password) }}}
             />
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Adresse"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={event => { setEmail(event.target.value) }}
-                onKeyDown={event => { if (event.keyCode === 13) { trySignin(email, password) }}}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Passwort"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={event => { setPassword(event.target.value) }}
-                onKeyDown={event => { if (event.keyCode === 13) { trySignin(email, password) }}}
-              />
-              <Button
-                type="button"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={() => trySignin(email, password)}
-              >
-                Einloggen
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <RouterLink to="/reset-password" style={{ color: colors.green[900] }}>
-                    Passwort vergessen?
-                  </RouterLink>
-                </Grid>
-                <Grid item>
-                  <RouterLink to="/signup" style={{ color: colors.green[900] }}>
-                    Registrieren
-                  </RouterLink>
-                </Grid>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Passwort"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={event => { setPassword(event.target.value) }}
+              onKeyDown={event => { if (event.keyCode === 13) { trySignin(email, password) }}}
+            />
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={() => trySignin(email, password)}
+            >
+              Einloggen
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <RouterLink to="/reset-password" style={{ color: colors.green[900] }}>
+                  Passwort vergessen?
+                </RouterLink>
               </Grid>
-            </form>
-          </div>
-        </Container>
+              <Grid item>
+                <RouterLink to="/signup" style={{ color: colors.green[900] }}>
+                  Registrieren
+                </RouterLink>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Container>
     </Box>
   );
 }

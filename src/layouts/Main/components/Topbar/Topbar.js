@@ -7,6 +7,7 @@ import { AppBar, Toolbar, Badge, Hidden, IconButton, Divider } from '@material-u
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import { logout } from '../../../../components/Auth/Auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,6 +55,7 @@ const Topbar = props => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
+            onClick={() => logout()}
           >
             <InputIcon />
           </IconButton>
