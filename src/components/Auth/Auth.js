@@ -48,3 +48,22 @@ export function signIn(email, password, updateStateIsSignedIn, setLoginFailed) {
     }
   });
 }
+
+export function signUp(userInfo) {
+  var myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  const fields = {
+    "username": userInfo.email,
+    "password": userInfo.password
+  };
+  fetch('http://localhost:1831/register', {
+    method: 'POST',
+    headers: myHeaders,
+    mode: 'cors',
+    credentials: 'include',
+    cache: 'default',
+    body: JSON.stringify(fields)
+  }).then(res => {
+    window.location.reload();
+  });
+}

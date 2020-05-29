@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session)
 const sessionPool = require('pg').Pool
@@ -15,6 +16,7 @@ var crypto = require('crypto');
  */
 var app = express();
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
@@ -83,6 +85,59 @@ async function findUserByUUID(id, func) {
   return func(null, user);
 }
 
+async function getProfilePicFile(id) {
+  const query = "SELECT profile_pic FROM public.users WHERE uuid=$1";
+  const value = [ id ];
+
+  const client = new Client(DBInfo);
+  client.connect();
+  const res = await client.query(query, value);
+  client.end();
+
+  if (res.rowCount === 0) {
+    return "";
+  } else {
+    return res.rows[0].profile_pic;
+  }
+}
+
+async function getUserInfo(id) {
+  const query = "SELECT username, first_name, last_name, tel, role, city, state, country, timezone from public.users WHERE uuid=$1";
+  const value = [ id ];
+
+  const client = new Client(DBInfo);
+  client.connect();
+  const res = await client.query(query, value);
+  client.end();
+
+  if (res.rowCount === 0) {
+    return "";
+  } else {
+    const rows = res.rows[0];
+    const userInfo = {
+      email: rows.username,
+      firstName: rows.first_name,
+      lastName: rows.last_name,
+      tel: rows.tel,
+      role: rows.role,
+      city: rows.city,
+      state: rows.state,
+      country: rows.country,
+      timezone: rows.timezone,
+    }
+    return userInfo;
+  }
+}
+
+function updateUser(user, id) {
+  const query = "UPDATE users set username=$1, first_name=$2, last_name=$3, tel=$4, role=$5, city=$6, state=$7, country=$8, timezone=$9 where uuid=$10";
+  const value = [ user.email, user.firstName, user.lastName, user.tel, user.role, user.city, user.state, user.country, user.timezone, id ];
+
+  const client = new Client(DBInfo);
+  client.connect();
+  client.query(query, value).then(() => client.end());
+}
+
 /**
  * -------------- SESSION SETUP ----------------
  */
@@ -105,7 +160,6 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 
 function validPassword(password, hash, salt) {
-  console.log("here");
   var hashVerify = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
   return hash === hashVerify;
 }
@@ -122,7 +176,6 @@ function genPassword(password) {
 
 passport.use(new LocalStrategy(
   function(username, password, cb) {
-    console.log(username, password, cb);
     findUser({ username: username })
       .then((user) => {
         if (!user) {
@@ -167,27 +220,22 @@ app.get('/login', (req, res, next) => {
 });
 
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: 'login-success' }), (err, req, res, next) => {
-  console.log("post hrer");
   if (err) next(err);
 });
 
 app.get('/login-success', (req, res, next) => {
-  console.log(req.body.username);
   res.status(200).send('You successfully logged in.');
 });
 
 app.get('/login-failure', (req, res, next) => {
-  console.log(req.body.username);
   res.status(401).send('You entered the wrong password.');
 });
 
 app.get('/is-logged-in', (req, res, next) => {
-  console.log(req.headers.cookie);
   if (req.isAuthenticated()) {
-    console.log("success");
-    res.status(200).send('yes');
+    res.status(200).send();
   } else {
-    res.status(401).send('no');
+    res.status(401).send();
   }
 });
 
@@ -210,9 +258,36 @@ app.post('/register', (req, res, next) => {
 });
 
 app.get('/logout', (req, res, next) => {
-  console.log("logged out");
   req.logout();
   res.redirect('/login');
+});
+
+app.get('/own-profile-pic', async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const profilePicFile = await getProfilePicFile(req.user.id);
+    res.status(200).sendFile(profilePicFile);
+  } else {
+    res.status(401).send();
+  }
+});
+
+app.get('/own-info', async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const userInfo = await getUserInfo(req.user.id);
+    res.status(200).json(userInfo);
+  } else {
+    res.status(401).send();
+  }
+});
+
+app.post('/update-profile', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    console.log(req.body);
+    updateUser(req.body, req.user.id);
+    res.status(200).send();
+  } else {
+    res.status(200).send();
+  }
 });
 
 app.listen(1831);

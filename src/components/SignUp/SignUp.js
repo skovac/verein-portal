@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { Link as RouterLink} from 'react-router-dom';
 import { colors } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -11,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { signUp } from '../../components/Auth/Auth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const SignUp = props => {
   const classes = useStyles();
+  const [firstName, updateFirstName] = useState("");
+  const [lastName, updateLastName] = useState("");
+  const [memberStatus, updateMemberStatus] = useState("");
+  const [email, updateEmail] = useState("");
+  const [password, updatePassword] = useState("");
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -55,6 +62,8 @@ export const SignUp = props => {
                 id="firstName"
                 label="Vorname"
                 autoFocus
+                value={firstName}
+                onChange={event => updateFirstName(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -66,6 +75,8 @@ export const SignUp = props => {
                 label="Nachname"
                 name="lastName"
                 autoComplete="lname"
+                value={lastName}
+                onChange={event => updateLastName(event.target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -74,9 +85,10 @@ export const SignUp = props => {
                 <Select
                   labelId="status-chooser"
                   id="status-chooser"
-                  value="fuchs"
                   label="Status"
                   width="2000"
+                  value={memberStatus}
+                  onChange={event => updateMemberStatus(event.target.value)}
                 >
                   <MenuItem value={"fuchs"}>Fuchs</MenuItem>
                   <MenuItem value={"ab"}>aB</MenuItem>
@@ -94,6 +106,8 @@ export const SignUp = props => {
                 label="Email Adresse"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={event => updateEmail(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -106,6 +120,8 @@ export const SignUp = props => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={event => updatePassword(event.target.value)}
               />
             </Grid>
             <Button
@@ -114,6 +130,7 @@ export const SignUp = props => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={() => signUp({firstName, lastName, memberStatus, email, password})}
             >
               Registrieren
             </Button>

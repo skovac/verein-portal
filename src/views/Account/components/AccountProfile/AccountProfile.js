@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
@@ -13,7 +14,7 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core';
-import { getOwnInfo } from './../../../../backend-calls/GetProfile'
+import { getOwnInfo, ownPicUrl, templInfo } from './../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -36,9 +37,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AccountProfile = props => {
+  const [ user, setUser ] = useState(templInfo);
+  useEffect(() => { getOwnInfo(setUser) }, []);
+
   const { className, ...rest } = props;
   const classes = useStyles();
-  const user = getOwnInfo(); 
 
   return (
     <Card
@@ -52,7 +55,7 @@ const AccountProfile = props => {
               gutterBottom
               variant="h2"
             >
-              {user.name}
+              {user.firstName + " " + user.lastName}
             </Typography>
             <Typography
               className={classes.locationText}
@@ -71,7 +74,7 @@ const AccountProfile = props => {
           </div>
           <Avatar
             className={classes.avatar}
-            src={user.avatar}
+            src={ownPicUrl}
           />
         </div>
         <div className={classes.progress}>

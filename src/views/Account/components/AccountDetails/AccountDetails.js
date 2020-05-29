@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -12,6 +12,7 @@ import {
   Button,
   TextField
 } from '@material-ui/core';
+import { getOwnInfo, templInfo, updateProfile } from '../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -19,24 +20,18 @@ const useStyles = makeStyles(() => ({
 
 const AccountDetails = props => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
-
-  const [values, setValues] = useState({
-    firstName: 'Ben',
-    lastName: 'Kloos',
-    email: 'ben.kloos@KannNichtSaufen.de',
-    phone: '',
-    state: 'Bayern',
-    country: 'Deutschland'
-  });
+  const [ user, setUser ] = useState(templInfo);
+  useEffect(() => { getOwnInfo(setUser) }, []);
 
   const handleChange = event => {
-    setValues({
-      ...values,
+    setUser({
+      ...user,
       [event.target.name]: event.target.value
     });
   };
+
+  console.log(user);
 
   return (
     <Card
@@ -69,7 +64,7 @@ const AccountDetails = props => {
                 name="firstName"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={user.firstName || ''}
                 variant="outlined"
               />
             </Grid>
@@ -85,7 +80,23 @@ const AccountDetails = props => {
                 name="lastName"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={user.lastName || ''}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Status"
+                margin="dense"
+                name="role"
+                onChange={handleChange}
+                required
+                value={user.role || ''}
                 variant="outlined"
               />
             </Grid>
@@ -101,7 +112,7 @@ const AccountDetails = props => {
                 name="email"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={user.email || ''}
                 variant="outlined"
               />
             </Grid>
@@ -114,9 +125,26 @@ const AccountDetails = props => {
                 fullWidth
                 label="Telefonnummer *"
                 margin="dense"
-                name="phone"
+                name="tel"
                 onChange={handleChange}
-                value={values.phone}
+                required
+                value={user.tel || ''}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Stadt"
+                margin="dense"
+                name="city"
+                onChange={handleChange}
+                required
+                value={user.city || ''}
                 variant="outlined"
               />
             </Grid>
@@ -132,7 +160,7 @@ const AccountDetails = props => {
                 name="state"
                 onChange={handleChange}
                 required
-                value={values.state}
+                value={user.state || ''}
                 variant="outlined"
               />
             </Grid>
@@ -148,7 +176,23 @@ const AccountDetails = props => {
                 name="country"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={user.country || ''}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Zeitzone"
+                margin="dense"
+                name="timezone"
+                onChange={handleChange}
+                required
+                value={user.timezone || ''}
                 variant="outlined"
               />
             </Grid>
@@ -159,6 +203,7 @@ const AccountDetails = props => {
           <Button
             color="primary"
             variant="contained"
+            onClick={() => updateProfile(user)}
           >
             Änderungen speichern
           </Button>

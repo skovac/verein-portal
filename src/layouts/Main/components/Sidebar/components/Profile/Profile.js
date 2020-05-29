@@ -1,10 +1,11 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
-import { getOwnInfo } from '../../../../../../backend-calls/GetProfile'
+import { getOwnInfo, ownPicUrl, templInfo } from '../../../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,11 +24,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = props => {
+  const [ user, setUser ] = useState(templInfo);
+  useEffect(() => { getOwnInfo(setUser) }, []);
+
   const { className, ...rest } = props;
-
   const classes = useStyles();
-
-  const user = getOwnInfo();
 
   return (
     <div
@@ -38,14 +39,14 @@ const Profile = props => {
         alt="Person"
         className={classes.avatar}
         component={RouterLink}
-        src={user.avatar}
+        src={ownPicUrl}
         to="/settings"
       />
       <Typography
         className={classes.name}
         variant="h4"
       >
-        {user.name}
+        {user.firstName + " " + user.lastName}
       </Typography>
       <Typography variant="body2">{user.role}</Typography>
     </div>
