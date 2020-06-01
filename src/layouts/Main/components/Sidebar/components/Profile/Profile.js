@@ -46,7 +46,7 @@ const Profile = props => {
         className={classes.name}
         variant="h4"
       >
-        {user.firstName + " " + user.lastName}
+        {(user.firstName || "") + " " + (user.lastName || "")}
       </Typography>
       <Typography variant="body2">{user.role}</Typography>
     </div>

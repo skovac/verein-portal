@@ -9,14 +9,15 @@ import {
   UserList as UserListView,
   Account as AccountView,
   Settings as SettingsView,
-  NotFound as NotFoundView
+  NotFound as NotFoundView,
 } from './views';
 import { isSignedIn } from './components/Auth/Auth';
 import { SignIn } from './components/SignIn/SignIn';
 import { SignUp } from './components/SignUp/SignUp';
 import { loginStatus } from './util/enums';
 
-const TeutonenZeitung = () => { return <h1>TZ</h1> };
+import PdfReader from './views/PDF/PDF';
+
 const Protokolle = () => { return <h1>Protokolle</h1> };
 
 export default class Routes extends React.Component {
@@ -24,6 +25,7 @@ export default class Routes extends React.Component {
     super(props);
     this.state = {
       signedIn: loginStatus.standby,
+      updateCounter: 0
     };
   }
 
@@ -64,7 +66,7 @@ export default class Routes extends React.Component {
             path="/mitglieder"
           />
           <RouteWithLayout
-            component={TeutonenZeitung}
+            component={PdfReader}
             exact
             layout={MainLayout}
             path="/tz"

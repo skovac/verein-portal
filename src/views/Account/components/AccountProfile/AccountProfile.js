@@ -14,7 +14,7 @@ import {
   Button,
   LinearProgress
 } from '@material-ui/core';
-import { getOwnInfo, ownPicUrl, templInfo } from './../../../../backend-calls/GetProfile'
+import { getOwnInfo, ownPicUrl, uploadProfilePic, deleteProfilePic, templInfo } from './../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -36,6 +36,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const userCompleteness = user => {
+  const values = Object.values(user);
+  const numValues = values.length;
+  let numCompletedValues = 0;
+  for (let i = 0; i < numValues; ++i) {
+    if (values[i]) {
+      ++numCompletedValues;
+    }
+  }
+  return Math.round(numCompletedValues / numValues * 100);
+}
+
 const AccountProfile = props => {
   const [ user, setUser ] = useState(templInfo);
   useEffect(() => { getOwnInfo(setUser) }, []);
@@ -55,21 +67,21 @@ const AccountProfile = props => {
               gutterBottom
               variant="h2"
             >
-              {user.firstName + " " + user.lastName}
+              {(user.firstName || "") + " " + (user.lastName || "")}
             </Typography>
             <Typography
               className={classes.locationText}
               color="textSecondary"
               variant="body1"
             >
-              {user.city}, {user.country}
+              {user.city} {user.country}
             </Typography>
             <Typography
               className={classes.dateText}
               color="textSecondary"
               variant="body1"
             >
-              {moment().format('HH:mm')} ({user.timezone})
+              {moment().format('HH:mm')} ({user.timezone || "GMT-0"})
             </Typography>
           </div>
           <Avatar
@@ -78,9 +90,9 @@ const AccountProfile = props => {
           />
         </div>
         <div className={classes.progress}>
-          <Typography variant="body1">Profil Vollständigkeit: 85%</Typography>
+          <Typography variant="body1">Profil Vollständigkeit: {userCompleteness(user)}%</Typography>
           <LinearProgress
-            value={75}
+            value={userCompleteness(user)}
             variant="determinate"
           />
         </div>
@@ -94,6 +106,12 @@ const AccountProfile = props => {
           id="raised-button-file"
           multiple
           type="file"
+          onChange={event => {
+            const data = new FormData();
+            data.append('file', event.target.files[0]);
+            uploadProfilePic(data);
+            window.location.reload();
+          }}
         />
         <label htmlFor="raised-button-file">
           <Button
@@ -105,7 +123,14 @@ const AccountProfile = props => {
             Bild hochladen
           </Button>
         </label>
-        <Button variant="text">Bild löschen</Button>
+        <Button 
+          variant="text"
+          onClick={() => {
+            deleteProfilePic();
+          }}
+        >
+          Bild löschen
+        </Button>
       </CardActions>
     </Card>
   );

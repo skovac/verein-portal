@@ -31,8 +31,6 @@ const AccountDetails = props => {
     });
   };
 
-  console.log(user);
-
   return (
     <Card
       {...rest}

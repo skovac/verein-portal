@@ -1,8 +1,12 @@
 import { loginStatus } from '../../util/enums';
+import backendURL from '../../BackendUrl';
 
 export function logout(updateStateIsSignedIn) {
-  fetch('http://localhost:1831/logout', {
+  const headers = new Headers();
+  headers.append("Access-Control-Allow-Origin", backendURL);
+  fetch(backendURL + '/logout', {
     method: 'GET',
+    headers: headers,
     credentials: 'include'
   }).then(() => {
     if (updateStateIsSignedIn) {
@@ -14,8 +18,11 @@ export function logout(updateStateIsSignedIn) {
 }
 
 export function isSignedIn(updateStateIsSignedIn) {
-  fetch('http://localhost:1831/is-logged-in', {
+  const headers = new Headers();
+  headers.append("Access-Control-Allow-Origin", backendURL);
+  fetch(backendURL + '/is-logged-in', {
     method: 'GET',
+    headers: headers,
     credentials: 'include',
   }).then(res => {
     if (res.status === 200) {
@@ -28,12 +35,13 @@ export function isSignedIn(updateStateIsSignedIn) {
 
 export function signIn(email, password, updateStateIsSignedIn, setLoginFailed) {
   var myHeaders = new Headers();
+  myHeaders.append("Access-Control-Allow-Origin", backendURL);
   myHeaders.append('Content-Type', 'application/json');
   const fields = {
     "username": email,
     "password": password
   };
-  fetch('http://localhost:1831/login', {
+  fetch(backendURL + '/login', {
     method: 'POST',
     headers: myHeaders,
     mode: 'cors',
@@ -51,12 +59,16 @@ export function signIn(email, password, updateStateIsSignedIn, setLoginFailed) {
 
 export function signUp(userInfo) {
   var myHeaders = new Headers();
+  myHeaders.append("Access-Control-Allow-Origin", backendURL);
   myHeaders.append('Content-Type', 'application/json');
   const fields = {
-    "username": userInfo.email,
-    "password": userInfo.password
+    username: userInfo.email,
+    password: userInfo.password,
+    firstName: userInfo.firstName,
+    lastName: userInfo.lastName,
+    role: userInfo.memberStatus
   };
-  fetch('http://localhost:1831/register', {
+  fetch(backendURL + '/register', {
     method: 'POST',
     headers: myHeaders,
     mode: 'cors',

@@ -1,10 +1,12 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session)
 const sessionPool = require('pg').Pool
 const uuid = require('uuid/v1');
 const cors = require('cors');
+const fs = require('fs')
 require('dotenv').config()
 
 const passport = require('passport');
@@ -15,6 +17,7 @@ var crypto = require('crypto');
  * -------------- GENERAL SETUP ----------------
  */
 var app = express();
+app.use(fileUpload());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
@@ -33,11 +36,13 @@ const DBInfo = {
 };
 
 function writeToDB(user) {
+  console.log(user)
   const client = new Client(DBInfo);
   client.connect()
-  const query = "INSERT INTO public.users(uuid, username, password, salt) VALUES ($1, $2, $3, $4);"
-  const values = [ uuid(), user.username, user.hash, user.salt ]
+  const query = "INSERT INTO public.users(uuid, username, password, salt, first_name, last_name, role) VALUES ($1, $2, $3, $4, $5, $6, $7);"
+  const values = [ uuid(), user.username, user.hash, user.salt, user.firstName, user.lastName, user.role ]
   client.query(query, values, (err, res) => {
+    console.log(err);
     client.end();
   });
 }
@@ -251,7 +256,10 @@ app.post('/register', (req, res, next) => {
   const newUser = {
     username: req.body.username,
     hash: hash,
-    salt: salt
+    salt: salt,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    role: req.body.role
   };
   writeToDB(newUser);
   res.redirect('/login');
@@ -264,8 +272,7 @@ app.get('/logout', (req, res, next) => {
 
 app.get('/own-profile-pic', async (req, res, next) => {
   if (req.isAuthenticated()) {
-    const profilePicFile = await getProfilePicFile(req.user.id);
-    res.status(200).sendFile(profilePicFile);
+    res.status(200).sendFile(__dirname + "/public/avatars/" + req.user.id + ".jpg");
   } else {
     res.status(401).send();
   }
@@ -288,6 +295,26 @@ app.post('/update-profile', (req, res, next) => {
   } else {
     res.status(200).send();
   }
+});
+
+app.post('/upload-profile-pic', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const file = req.files.file;
+    file.mv(__dirname + "/public/avatars/" + req.user.id + ".jpg");
+  }
+}); 
+
+app.post('/delete-profile-pic', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    fs.unlinkSync(__dirname + "/public/avatars/" + req.user.id + ".jpg");
+    res.status(200).send();
+  } else {
+    res.status(401).send();
+  }
+});
+
+app.get('/pdf', (req, res, next) => {
+  res.status(200).sendFile(__dirname + "/public/tz/535.pdf");
 });
 
 app.listen(1831);
