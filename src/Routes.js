@@ -16,7 +16,7 @@ import { SignIn } from './components/SignIn/SignIn';
 import { SignUp } from './components/SignUp/SignUp';
 import { loginStatus } from './util/enums';
 
-import PdfReader from './views/PDF/PDF';
+import { TeutonenZeitung } from './views/PDF/TZ';
 
 const Protokolle = () => { return <h1>Protokolle</h1> };
 
@@ -66,7 +66,7 @@ export default class Routes extends React.Component {
             path="/mitglieder"
           />
           <RouteWithLayout
-            component={PdfReader}
+            component={TeutonenZeitung}
             exact
             layout={MainLayout}
             path="/tz"

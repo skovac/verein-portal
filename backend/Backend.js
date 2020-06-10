@@ -313,8 +313,22 @@ app.post('/delete-profile-pic', (req, res, next) => {
   }
 });
 
-app.get('/pdf', (req, res, next) => {
-  res.status(200).sendFile(__dirname + "/public/tz/535.pdf");
+app.get('/tz-nbs', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    var tzNbs = new Array();
+    fs.readdir(__dirname + "/public/tz", (err, files) => {
+      files.map(file => {
+        tzNbs.push(file.slice(0, file.indexOf('.')));
+      });
+      res.status(200).json(tzNbs);
+    });
+  } else {
+    res.status(401).send();
+  }
+});
+
+app.get('/tz', (req, res, next) => {
+  res.status(200).sendFile(__dirname + "/public/tz/" + req.query.tzNb + ".pdf");
 });
 
 app.listen(1831);
