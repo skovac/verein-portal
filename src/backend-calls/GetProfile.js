@@ -56,7 +56,7 @@ export function updateProfile(user) {
   }).then(() => window.location.reload());
 }
 
-export function uploadProfilePic(picFile) {
+export async function uploadProfilePic(picFile) {
   const headers = new Headers();
   headers.append("Access-Control-Allow-Origin", backendURL);
   fetch(backendURL + '/upload-profile-pic', {
@@ -66,7 +66,12 @@ export function uploadProfilePic(picFile) {
     credentials: 'include',
     cache: 'default',
     body: picFile
-  })
+  }).then(response => {
+    if (response.status === 200) {
+      window.location.reload();
+    }
+    console.log(response.status);
+  });
 }
 
 export function deleteProfilePic(picFile) {

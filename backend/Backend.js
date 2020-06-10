@@ -300,7 +300,11 @@ app.post('/update-profile', (req, res, next) => {
 app.post('/upload-profile-pic', (req, res, next) => {
   if (req.isAuthenticated()) {
     const file = req.files.file;
+    console.log("here");
     file.mv(__dirname + "/public/avatars/" + req.user.id + ".jpg");
+    res.status(200).send()
+  } else {
+    res.status(401).send()
   }
 }); 
 

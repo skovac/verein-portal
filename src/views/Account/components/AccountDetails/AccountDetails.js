@@ -121,7 +121,7 @@ const AccountDetails = props => {
             >
               <TextField
                 fullWidth
-                label="Telefonnummer *"
+                label="Telefonnummer"
                 margin="dense"
                 name="tel"
                 onChange={handleChange}

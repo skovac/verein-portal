@@ -110,7 +110,6 @@ const AccountProfile = props => {
             const data = new FormData();
             data.append('file', event.target.files[0]);
             uploadProfilePic(data);
-            window.location.reload();
           }}
         />
         <label htmlFor="raised-button-file">
