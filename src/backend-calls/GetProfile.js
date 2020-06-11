@@ -56,7 +56,7 @@ export function updateProfile(user) {
   }).then(() => window.location.reload());
 }
 
-export async function uploadProfilePic(picFile) {
+export async function uploadProfilePic(picFile, fireRender) {
   const headers = new Headers();
   headers.append("Access-Control-Allow-Origin", backendURL);
   fetch(backendURL + '/upload-profile-pic', {
@@ -70,7 +70,6 @@ export async function uploadProfilePic(picFile) {
     if (response.status === 200) {
       window.location.reload();
     }
-    console.log(response.status);
   });
 }
 

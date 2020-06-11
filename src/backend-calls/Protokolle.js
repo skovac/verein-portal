@@ -1,16 +1,16 @@
 import backendURL from '../BackendUrl';
 
-export const getTzNbs = (setTzList, setTzNb) => {
+export const getProtocolNbs = (setProtocolList, setProtocolNb) => {
   const headers = new Headers();
   headers.append("Access-Control-Allow-Origin", backendURL);
-  fetch(backendURL + '/tz-nbs', {
+  fetch(backendURL + '/protocol-nbs', {
     method: 'GET',
     headers: headers,
     credentials: 'include'
   }).then(res => res.json())
     .then(jsonData => {
-      setTzList(jsonData);
-      setTzNb(jsonData[jsonData.length - 1]);
+      setProtocolList(jsonData);
+      setProtocolNb(jsonData[jsonData.length - 1]);
     });
 }
 

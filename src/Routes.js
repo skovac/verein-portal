@@ -11,14 +11,14 @@ import {
   Settings as SettingsView,
   NotFound as NotFoundView,
 } from './views';
+
 import { isSignedIn } from './components/Auth/Auth';
 import { SignIn } from './components/SignIn/SignIn';
 import { SignUp } from './components/SignUp/SignUp';
 import { loginStatus } from './util/enums';
 
-import { TeutonenZeitung } from './views/PDF/TZ';
-
-const Protokolle = () => { return <h1>Protokolle</h1> };
+import { TeutonenZeitung } from './views/TZ/TZ';
+import { Protokolle } from './views/Protokolle/Protokolle';
 
 export default class Routes extends React.Component {
   constructor(props) {

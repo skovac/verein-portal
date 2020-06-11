@@ -300,7 +300,6 @@ app.post('/update-profile', (req, res, next) => {
 app.post('/upload-profile-pic', (req, res, next) => {
   if (req.isAuthenticated()) {
     const file = req.files.file;
-    console.log("here");
     file.mv(__dirname + "/public/avatars/" + req.user.id + ".jpg");
     res.status(200).send()
   } else {
@@ -314,6 +313,28 @@ app.post('/delete-profile-pic', (req, res, next) => {
     res.status(200).send();
   } else {
     res.status(401).send();
+  }
+});
+
+app.get('/protocol-nbs', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    var protocolNbs = new Array();
+    fs.readdir(__dirname + "/public/protocols/", (err, files) => {
+      files.map(file => {
+        protocolNbs.push(file.slice(0, file.indexOf('.')));
+      });
+      res.status(200).json(protocolNbs);
+    });
+  } else {
+    res.status(401).send();
+  }
+});
+
+app.get('/protocol', (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.status(200).sendFile(__dirname + "/public/protocols/" + req.query.protocolNb + ".pdf");
+  } else {
+    res.status(401).send()
   }
 });
 
@@ -332,7 +353,11 @@ app.get('/tz-nbs', (req, res, next) => {
 });
 
 app.get('/tz', (req, res, next) => {
-  res.status(200).sendFile(__dirname + "/public/tz/" + req.query.tzNb + ".pdf");
+  if (req.isAuthenticated()) {
+    res.status(200).sendFile(__dirname + "/public/tz/" + req.query.tzNb + ".pdf");
+  } else {
+    res.status(401).send()
+  }
 });
 
 app.listen(1831);

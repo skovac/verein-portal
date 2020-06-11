@@ -25,12 +25,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const TzPage = props => {
+  const numPages = props.numPages;
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const validPage = () => {
+    if (pageNumber < numPages && pageNumber > 0) {
+      return pageNumber;
+    } else if (pageNumber < 1) {
+      return 1;
+    } else if (pageNumber >= numPages) {
+      return numPages;
+    }
+  }
+
+  return (
+    <>
+      <Grid container spacing={1}>
+        <Grid item>
+          {pageNumber > 1 && (pageNumber < numPages || (numPages % 2 === 1)) ? <Page pageNumber={validPage() - 1} /> : <></>}
+        </Grid>
+        <Grid item>
+          <Page pageNumber={validPage()}/>
+        </Grid>
+      </Grid>
+
+      <IconButton onClick={() => setPageNumber(pageNumber > 1 ? pageNumber - 2 : pageNumber)}>
+        <SkipPrevious/>
+      </IconButton>
+      <IconButton onClick={() => setPageNumber(pageNumber < (numPages - 1) ? pageNumber + 2 : numPages)}>
+        <SkipNext/>
+      </IconButton>
+      <Typography variant="caption">
+        Seite {(pageNumber - 1) && (pageNumber !== numPages || numPages % 2 === 1) ? (pageNumber - 1) + "," : ""}{pageNumber} / {numPages}
+      </Typography>
+    </>
+  );
+}
+
 export const TeutonenZeitung = () => {
   const classes = useStyles();
 
-  const [ tzNb, setTzNb ] = useState(539);
+  const [ tzNb, setTzNb ] = useState(0);
   const [ tzList, setTzList ] = useState([]);
-  useEffect(() => getTzNbs(setTzList), []);
+  useEffect(() => getTzNbs(setTzList, setTzNb), []);
 
   const [numPages, setNumPages] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
@@ -60,28 +98,11 @@ export const TeutonenZeitung = () => {
     <div style={{maxHeight: '100%', overflow: 'auto'}}>
       <Box m={2} component="div" overflow="hidden" style={{zoom: 0.90, float: 'left'}}>
         <Document
-          file={backendURL + "/tz?tzNb=" + tzNb}
+          file={{ url: backendURL + "/tz?tzNb=" + tzNb, withCredentials: true }}
           onLoadSuccess={onDocumentLoadSuccess}
         >
-          <Grid container spacing={1}>
-            <Grid item>
-              {pageNumber > 1 && (pageNumber < numPages || (numPages % 2 === 1)) ? <Page pageNumber={validPage() - 1} /> : <></>}
-            </Grid>
-            <Grid item>
-              <Page pageNumber={validPage()}/>
-            </Grid>
-          </Grid>
+          <TzPage numPages={numPages} />
         </Document>
-
-        <IconButton onClick={() => setPageNumber(pageNumber > 1 ? pageNumber - 2 : pageNumber)}>
-          <SkipPrevious/>
-        </IconButton>
-        <IconButton onClick={() => setPageNumber(pageNumber < (numPages - 1) ? pageNumber + 2 : numPages)}>
-          <SkipNext/>
-        </IconButton>
-        <Typography variant="caption">
-          Seite {(pageNumber - 1) && (pageNumber !== numPages || numPages % 2 === 1) ? (pageNumber - 1) + "," : ""}{pageNumber} / {numPages}
-        </Typography>
       </Box>
 
       <Box m={2} style={{ maxHeight: 400, overflow: 'auto', float: 'right' }} >
