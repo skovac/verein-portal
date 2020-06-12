@@ -200,7 +200,7 @@ const AccountDetails = props => {
         <CardActions>
           <Button
             color="primary"
-            variant="contained"
+            variant="outlined"
             onClick={() => updateProfile(user)}
           >
             Änderungen speichern

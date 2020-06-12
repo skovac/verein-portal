@@ -1,16 +1,16 @@
 import backendURL from '../BackendUrl';
 
-export const getTzNbs = (setTzList, setTzNb) => {
+export const getPdfNbs = (pdfBackendPath, setPdfList, setPdfNb) => {
   const headers = new Headers();
   headers.append("Access-Control-Allow-Origin", backendURL);
-  fetch(backendURL + '/tz-nbs', {
+  fetch(backendURL + pdfBackendPath, {
     method: 'GET',
     headers: headers,
     credentials: 'include'
   }).then(res => res.json())
     .then(jsonData => {
-      setTzList(jsonData);
-      setTzNb(jsonData[jsonData.length - 1]);
+      setPdfList(jsonData.reverse());
+      setPdfNb(jsonData[0]);
     });
 }
 

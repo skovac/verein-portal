@@ -272,7 +272,12 @@ app.get('/logout', (req, res, next) => {
 
 app.get('/own-profile-pic', async (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.status(200).sendFile(__dirname + "/public/avatars/" + req.user.id + ".jpg");
+    const path = __dirname + "/public/avatars/" + req.user.id + ".jpg";
+    if (fs.existsSync(path)) {
+      res.status(200).sendFile(path);
+    } else {
+      res.status(204).send();
+    }
   } else {
     res.status(401).send();
   }
@@ -332,7 +337,12 @@ app.get('/protocol-nbs', (req, res, next) => {
 
 app.get('/protocol', (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.status(200).sendFile(__dirname + "/public/protocols/" + req.query.protocolNb + ".pdf");
+    const path = __dirname + "/public/protocols/" + req.query.protocolNb + ".pdf";
+    if (fs.existsSync(path)) {
+      res.status(200).sendFile(path);
+    } else {
+      res.status(204).send();
+    }
   } else {
     res.status(401).send()
   }
@@ -354,7 +364,12 @@ app.get('/tz-nbs', (req, res, next) => {
 
 app.get('/tz', (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.status(200).sendFile(__dirname + "/public/tz/" + req.query.tzNb + ".pdf");
+    const path = __dirname + "/public/tz/" + req.query.tzNb + ".pdf";
+    if (fs.existsSync(path)) {
+      res.status(200).sendFile(path);
+    } else {
+      res.status(204).send();
+    }
   } else {
     res.status(401).send()
   }
