@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, Divider } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, Badge, Hidden, IconButton, Divider } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
@@ -23,9 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const Topbar = props => {
   const { className, onSidebarOpen, ...rest } = props;
-
   const classes = useStyles();
-
   const [notifications] = useState([]);
 
   return (
@@ -41,6 +39,9 @@ const Topbar = props => {
             src="/images/logos/logo--white.svg"
           />
         </RouterLink>
+        <Typography variant="caption" style={{ padding: "10px 10px" }}>
+          v0.1
+        </Typography>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
           <IconButton color="inherit">
