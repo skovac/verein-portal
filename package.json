@@ -3,7 +3,7 @@
   "author": "Sebastien Kovacs",
   "email": "",
   "licence": "MIT",
-  "version": "0.0.1",
+  "version": "0.1",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
