@@ -19,7 +19,7 @@ export function logout(updateStateIsSignedIn) {
 
 export function isSignedIn(updateStateIsSignedIn) {
   const headers = new Headers();
-  headers.append("Access-Control-Allow-Origin", backendURL);
+  //headers.append("Access-Control-Allow-Origin", backendURL);
   fetch(backendURL + '/is-logged-in', {
     method: 'GET',
     headers: headers,
@@ -75,7 +75,5 @@ export function signUp(userInfo) {
     credentials: 'include',
     cache: 'default',
     body: JSON.stringify(fields)
-  }).then(res => {
-    window.location.reload();
-  });
+  })
 }

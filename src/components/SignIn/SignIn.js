@@ -100,7 +100,7 @@ export const SignIn = props => {
               className={classes.submit}
               onClick={() => trySignin(email, password)}
             >
-              Einloggen
+              Anmelden
             </Button>
             <Grid container>
               <Grid item xs>

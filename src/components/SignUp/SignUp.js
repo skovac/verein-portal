@@ -36,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
 
 export const SignUp = props => {
   const classes = useStyles();
-  const [firstName, updateFirstName] = useState("");
-  const [lastName, updateLastName] = useState("");
-  const [memberStatus, updateMemberStatus] = useState("");
-  const [email, updateEmail] = useState("");
-  const [password, updatePassword] = useState("");
+  const [ firstName, updateFirstName ] = useState("");
+  const [ lastName, updateLastName ] = useState("");
+  const [ memberStatus, updateMemberStatus ] = useState("");
+  const [ email, updateEmail ] = useState("");
+  const [ password, updatePassword ] = useState("");
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -122,6 +123,8 @@ export const SignUp = props => {
                 autoComplete="current-password"
                 value={password}
                 onChange={event => updatePassword(event.target.value)}
+                onKeyDown={event => { if (event.keyCode === 13) { signUp({firstName, lastName, memberStatus, email, password}) }}}
+
               />
             </Grid>
             <Button
@@ -130,7 +133,10 @@ export const SignUp = props => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => signUp({firstName, lastName, memberStatus, email, password})}
+              href="/signin"
+              onClick={() => {
+                signUp({firstName, lastName, memberStatus, email, password});
+              }}
             >
               Registrieren
             </Button>

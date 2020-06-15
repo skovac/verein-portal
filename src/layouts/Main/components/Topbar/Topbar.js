@@ -9,6 +9,8 @@ import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import { logout } from '../../../../components/Auth/Auth';
 
+import { version } from '../../../../../package.json';
+
 const useStyles = makeStyles(theme => ({
   root: {
     boxShadow: 'none'
@@ -40,7 +42,7 @@ const Topbar = props => {
           />
         </RouterLink>
         <Typography variant="caption" style={{ padding: "10px 10px" }}>
-          v0.1
+          {"v" + version}
         </Typography>
         <div className={classes.flexGrow} />
         <Hidden mdDown>

@@ -98,9 +98,9 @@ export default class Routes extends React.Component {
           <Route path="/signin">
             <SignIn updateStateIsSignedIn={this.updateStateIsSignedIn.bind(this)}/>
           </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
+         <Route path="/signup">
+           <SignUp />
+         </Route>
           <Redirect to="/signin" />
         </Switch>
       );
