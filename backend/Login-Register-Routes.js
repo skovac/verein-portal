@@ -27,6 +27,19 @@ module.exports = (app, passport) => {
     }
   });
 
+  app.get('/is-admin', (req, res, next) => {
+    if (req.isAuthenticated()) {
+      dbCom.userIsAdmin(req.user.id).then(result => {
+        if (result === true) {
+          res.status(200).send();
+        } else {
+          res.status(401).send();
+        }});
+    } else {
+      res.status(401).send();
+    }
+  });
+
   app.get('/register', (req, res, next) => {
     const form = "<h1>Register Page</h1><form method='post' action='register'>Enter Username:<br><input type='text' name='username'><br>Enter Password:<br><input type='password' name='password'><br><br><input type='submit' value='Submit'></form>";
     res.send(form);

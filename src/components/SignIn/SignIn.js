@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import MuiAlert from '@material-ui/lab/Alert';
 
-import { signIn } from '../../components/Auth/Auth';
+import { signIn } from '../../backend-calls/Auth/Auth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

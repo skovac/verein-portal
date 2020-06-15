@@ -12,7 +12,7 @@ import {
   NotFound as NotFoundView,
 } from './views';
 
-import { isSignedIn } from './components/Auth/Auth';
+import { isSignedIn } from './backend-calls/Auth/Auth';
 import { SignIn } from './components/SignIn/SignIn';
 import { SignUp } from './components/SignUp/SignUp';
 import { loginStatus } from './util/enums';

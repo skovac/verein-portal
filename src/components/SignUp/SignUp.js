@@ -12,7 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { signUp } from '../../components/Auth/Auth';
+import { signUp } from '../../backend-calls/Auth/Auth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -123,8 +123,6 @@ export const SignUp = props => {
                 autoComplete="current-password"
                 value={password}
                 onChange={event => updatePassword(event.target.value)}
-                onKeyDown={event => { if (event.keyCode === 13) { signUp({firstName, lastName, memberStatus, email, password}) }}}
-
               />
             </Grid>
             <Button

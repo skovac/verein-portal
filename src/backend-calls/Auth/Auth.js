@@ -19,7 +19,6 @@ export function logout(updateStateIsSignedIn) {
 
 export function isSignedIn(updateStateIsSignedIn) {
   const headers = new Headers();
-  //headers.append("Access-Control-Allow-Origin", backendURL);
   fetch(backendURL + '/is-logged-in', {
     method: 'GET',
     headers: headers,
@@ -32,6 +31,18 @@ export function isSignedIn(updateStateIsSignedIn) {
     }
   });
 };
+
+export const isAdmin = addAdminPage => {
+  fetch(backendURL + '/is-admin', {
+    method: 'GET',
+    credentials: 'include',
+  }).then(res => {
+    if (res.status === 200) {
+      addAdminPage();
+    }
+  });
+};
+
 
 export function signIn(email, password, updateStateIsSignedIn, setLoginFailed) {
   var myHeaders = new Headers();

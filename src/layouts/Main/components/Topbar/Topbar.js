@@ -7,7 +7,7 @@ import { AppBar, Typography, Toolbar, Badge, Hidden, IconButton, Divider } from 
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
-import { logout } from '../../../../components/Auth/Auth';
+import { logout } from '../../../../backend-calls/Auth/Auth';
 
 import { version } from '../../../../../package.json';
 

@@ -34,7 +34,7 @@ const writeToDB = (user) => {
   console.log(user)
   const client = new Client(DBInfo);
   client.connect()
-  const query = "INSERT INTO public.users(uuid, username, password, salt, first_name, last_name, role) VALUES ($1, $2, $3, $4, $5, $6, $7);"
+  const query = "INSERT INTO public.user_candidates(uuid, username, password, salt, first_name, last_name, role) VALUES ($1, $2, $3, $4, $5, $6, $7);"
   const values = [ uuid(), user.username, user.hash, user.salt, user.firstName, user.lastName, user.role ]
   client.query(query, values, (err, res) => {
     if (err) {
@@ -131,6 +131,28 @@ const getUserInfo = async (id) => {
   }
 }
 
+const userIsAdmin = async (id) => {
+  const query = "SELECT privilege from public.users WHERE uuid=$1";
+  const value = [ id ];
+
+  const client = new Client(DBInfo);
+  client.connect();
+  const res = await client.query(query, value);
+  client.end();
+
+  if (res.rowCount === 0) {
+    return false;
+  } else {
+    const rows = res.rows[0];
+    console.log(res.rows);
+    if (rows.privilege === 'admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
 const updateUser = (user, id) => {
   const query = "UPDATE users set username=$1, first_name=$2, last_name=$3, tel=$4, role=$5, city=$6, state=$7, country=$8, timezone=$9 where uuid=$10";
   const value = [ user.email, user.firstName, user.lastName, user.tel, user.role, user.city, user.state, user.country, user.timezone, id ];
@@ -148,6 +170,7 @@ let methods = {
   findUserByUUID:     (id, func) => findUserByUUID(id, func),
   getProfilePicFile:  (id) => getProfilePicFile(id),
   getUserInfo:        (id) => getUserInfo(id),
+  userIsAdmin:        (id) => userIsAdmin(id),
   updateUser:         (user, id) => updateUser(user, id)
 };
 

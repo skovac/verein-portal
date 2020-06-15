@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
@@ -8,8 +9,10 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import { Profile, SidebarNav } from './components';
+import { isAdmin } from '../../../../backend-calls/Auth/Auth';
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -39,7 +42,7 @@ const Sidebar = props => {
 
   const classes = useStyles();
 
-  const pages = [
+  const [ pages, setPages ] = useState([
     {
       title: 'Profil',
       href: '/profil',
@@ -64,8 +67,24 @@ const Sidebar = props => {
       title: 'Einstellungen',
       href: '/einstellungen',
       icon: <SettingsIcon />
-    }
-  ];
+    },
+  ]);
+
+  const adminPage = {
+    title: 'Neue Benutzer',
+    href: '/new-users',
+    icon: <PersonAddIcon />
+  };
+
+  const addAdminPage = () => {
+    let tmp = [...pages];
+    tmp.push(adminPage);
+    setPages(tmp);
+  };
+
+  useEffect(() => {
+    isAdmin(addAdminPage);
+  }, []);
 
   return (
     <Drawer
