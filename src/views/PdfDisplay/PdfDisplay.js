@@ -11,6 +11,8 @@ import {
   ListItem,
 } from '@material-ui/core';
 import { SkipPrevious, SkipNext } from '@material-ui/icons';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import { Document, Page, pdfjs } from 'react-pdf';
 
 import backendURL from '../../BackendUrl';
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PdfPage = props => {
   const numPages = props.numPages;
+  const [ pageSize, setPageSize ] = useState(1);
   const [pageNumber, setPageNumber] = useState(1);
 
   const validPage = () => {
@@ -62,10 +65,10 @@ const PdfPage = props => {
     <>
       <Grid container spacing={1}>
         <Grid item>
-          {pageNumber > 1 && (pageNumber < numPages || (numPages % 2 === 1)) ? <Page pageNumber={validPage() - 1} /> : <></>}
+          {pageNumber > 1 && (pageNumber < numPages || (numPages % 2 === 1)) ? <Page pageNumber={validPage() - 1} scale={pageSize}/> : <></>}
         </Grid>
         <Grid item>
-          <Page pageNumber={validPage()}/>
+          <Page pageNumber={validPage()} scale={pageSize}/>
         </Grid>
       </Grid>
       <IconButton onClick={() => setPageNumber(pageNumber > 1 ? pageNumber - 2 : pageNumber)}>
@@ -77,6 +80,12 @@ const PdfPage = props => {
       <Typography variant="caption">
         Seite {(pageNumber - 1) && (pageNumber !== numPages || numPages % 2 === 1) ? (pageNumber - 1) + "," : ""}{pageNumber} / {numPages}
       </Typography>
+      <IconButton onClick={() => setPageSize(pageSize + .1)}>
+        <ZoomInIcon/>
+      </IconButton>
+      <IconButton onClick={() => setPageSize(pageSize - .1)}>
+        <ZoomOutIcon/>
+      </IconButton>
     </>
   );
 };
@@ -85,13 +94,21 @@ export const PdfDisplay = props => {
   const { zoom, listNamePrefix, pdfBackendPath, pdfListBackendPath } = props;
   const classes = useStyles();
 
-  const [numPages, setNumPages] = useState(1);
+  const [ numPages, setNumPages ] = useState(1);
   const [ pdfNb, setPdfNb ] = useState(0);
   const [ pdfList, setPdfList ] = useState([]);
   useEffect(() => getPdfNbs(pdfListBackendPath, setPdfList, setPdfNb), []);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
+  }
+
+  const makeNameChoiceButton = num => {
+    if (parseInt(num) === 9999) {
+      return "Inhaltsverzeichnisse"
+    } else {
+      return listNamePrefix + num;
+    }
   }
 
   return (
@@ -115,7 +132,7 @@ export const PdfDisplay = props => {
                   setPdfNb(num);
                 }}
                 >
-                  {listNamePrefix + num}
+                  {makeNameChoiceButton(num)}
                 </Button>
               </ListItem>
             ))}
