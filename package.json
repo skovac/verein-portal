@@ -32,7 +32,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/styles": "^4.2.1",
     "@react-pdf/renderer": "^2.0.0-beta.6",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
