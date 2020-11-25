@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 
 import { getInitials } from 'helpers';
+import backendURL from '../../../../BackendUrl';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const showUser = (user, search, classes, selectedUsers, handleSelectOne) => {
-  const lcUsername = user.name.toLowerCase();
+  const lcUsername = user.first_name.toLowerCase() + " " + user.last_name.toLowerCase();
   const lcSearch = search.toLowerCase();
   if (lcUsername.includes(lcSearch) === false && search !== "") {
     return <></>;
@@ -67,17 +68,17 @@ const showUser = (user, search, classes, selectedUsers, handleSelectOne) => {
         <div className={classes.nameContainer}>
           <Avatar
             className={classes.avatar}
-            src={user.avatarUrl}
+            src={backendURL + "/profile-pic?id=" + user.uuid}
           >
-            {getInitials(user.name)}
+            {getInitials(user.first_name + ' ' + user.last_name)}
           </Avatar>
-          <Typography variant="body1">{user.name}</Typography>
+          <Typography variant="body1">{user.first_name + ' ' + user.last_name}</Typography>
         </div>
       </TableCell>
-      <TableCell>{user.email}</TableCell>
+      <TableCell>{user.username}</TableCell>
       <TableCell>
-        {user.address.city}, {user.address.state},{' '}
-        {user.address.country}
+        {user.city}, {user.state},{' '}
+        {user.country}
       </TableCell>
       <TableCell>{user.phone}</TableCell>
       <TableCell>
@@ -151,7 +152,7 @@ const UsersTable = props => {
                 <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedUsers.length === users.length}
+                      checked={selectedUsers.length === users?.length}
                       color="primary"
                       indeterminate={
                         selectedUsers.length > 0 &&
@@ -162,13 +163,13 @@ const UsersTable = props => {
                   </TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Location</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Registration date</TableCell>
+                  <TableCell>Wohnort</TableCell>
+                  <TableCell>Telefon</TableCell>
+                  <TableCell>Anmeldung</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.slice(0, rowsPerPage).map(user => (showUser(user, search, classes, selectedUsers, handleSelectOne)))}
+                {users?.slice(0, rowsPerPage).map(user => (showUser(user, search, classes, selectedUsers, handleSelectOne)))}
               </TableBody>
             </Table>
           </div>
@@ -177,7 +178,7 @@ const UsersTable = props => {
       <CardActions className={classes.actions}>
         <TablePagination
           component="div"
-          count={users.length}
+          count={users?.length}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}

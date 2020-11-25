@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import { UsersToolbar, UsersTable } from './components';
@@ -16,8 +16,10 @@ const useStyles = makeStyles(theme => ({
 const UserList = () => {
   const classes = useStyles();
 
-  const [users] = useState(getUsers());
+  const [users, setUsers] = useState();
   const [search, setsearch] = useState("");
+  useEffect(() => getUsers(setUsers), []);
+  console.log(users);
 
   return (
     <div className={classes.root}>
