@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { Avatar, Typography } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import { Avatar, Typography } from '@mui/material';
 import { getOwnInfo, ownPicUrl, templInfo } from '../../../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(theme => ({

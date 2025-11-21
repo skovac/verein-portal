@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Box,
   Grid,
@@ -7,8 +7,8 @@ import {
   List,
   ListItem,
   ListItemText
-} from '@material-ui/core';
-import { SkipPrevious, SkipNext } from '@material-ui/icons';
+} from '@mui/material';
+import { SkipPrevious, SkipNext } from '@mui/icons-material';
 import { Document, Page, pdfjs } from 'react-pdf';
 import backendURL from '../../BackendUrl';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

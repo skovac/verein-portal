@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Card,
   CardHeader,
@@ -11,7 +11,7 @@ import {
   Grid,
   Button,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 import { getOwnInfo, templInfo, updateProfile } from '../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(() => ({

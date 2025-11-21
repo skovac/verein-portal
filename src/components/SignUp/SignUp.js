@@ -1,17 +1,17 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link as RouterLink} from 'react-router-dom';
-import { colors } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { colors } from '@mui/material';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
+import Container from '@mui/material/Container';
 import { signUp } from '../../components/Auth/Auth';
 
 const useStyles = makeStyles((theme) => ({

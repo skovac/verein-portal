@@ -1,6 +1,6 @@
 import React from 'react';
-import { Switch, Redirect, Route, } from 'react-router-dom';
-import { Grid, colors } from '@material-ui/core';
+import { Routes as RouterRoutes, Route, Navigate } from 'react-router-dom';
+import { Grid, colors } from '@mui/material';
 import ReactLoading from 'react-loading';
 
 import { RouteWithLayout } from './components';
@@ -42,67 +42,49 @@ export default class Routes extends React.Component {
   render() {
     if (this.state.signedIn === loginStatus.signedIn) {
       return (
-        <Switch>
-          <Redirect
-            exact
-            from="/"
-            to="/profil"
-          />
-          <Redirect
-            exact
-            from="/signin"
-            to="/profil"
-          />
+        <RouterRoutes>
+          <Route path="/" element={<Navigate to="/profil" replace />} />
+          <Route path="/signin" element={<Navigate to="/profil" replace />} />
           <RouteWithLayout
             component={AccountView}
-            exact
             layout={MainLayout}
             path="/profil"
           />
           <RouteWithLayout
             component={UserListView}
-            exact
             layout={MainLayout}
             path="/mitglieder"
           />
           <RouteWithLayout
             component={PdfReader}
-            exact
             layout={MainLayout}
             path="/tz"
           />
           <RouteWithLayout
             component={Protokolle}
-            exact
             layout={MainLayout}
             path="/protokolle"
           />
           <RouteWithLayout
             component={SettingsView}
-            exact
             layout={MainLayout}
             path="/einstellungen"
           />
           <RouteWithLayout
             component={NotFoundView}
-            exact
             layout={MinimalLayout}
             path="/not-found"
           />
-          <Redirect to="/not-found" />
-        </Switch>
+          <Route path="*" element={<Navigate to="/not-found" replace />} />
+        </RouterRoutes>
       );
     } else if (this.state.signedIn === loginStatus.signedOut) {
       return (
-        <Switch>
-          <Route path="/signin">
-            <SignIn updateStateIsSignedIn={this.updateStateIsSignedIn.bind(this)}/>
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Redirect to="/signin" />
-        </Switch>
+        <RouterRoutes>
+          <Route path="/signin" element={<SignIn updateStateIsSignedIn={this.updateStateIsSignedIn.bind(this)}/>} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="*" element={<Navigate to="/signin" replace />} />
+        </RouterRoutes>
       );
     } else {
       return (
@@ -111,7 +93,7 @@ export default class Routes extends React.Component {
           spacing={0}
           direction="column"
           alignItems="center"
-          justify="center"
+          justifyContent="center"
           style={{ minHeight: '100vh' }}
         >
           <img

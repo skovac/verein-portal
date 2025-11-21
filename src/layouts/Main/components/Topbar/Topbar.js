@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar, Badge, Hidden, IconButton, Divider } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
+import { makeStyles } from '@mui/styles';
+import { AppBar, Toolbar, Badge, IconButton, Divider, Box } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/NotificationsOutlined';
+import InputIcon from '@mui/icons-material/Input';
 import { logout } from '../../../../components/Auth/Auth';
 
 const useStyles = makeStyles(theme => ({
@@ -42,7 +42,7 @@ const Topbar = props => {
           />
         </RouterLink>
         <div className={classes.flexGrow} />
-        <Hidden mdDown>
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <IconButton color="inherit">
             <Badge
               badgeContent={notifications.length}
@@ -59,15 +59,15 @@ const Topbar = props => {
           >
             <InputIcon />
           </IconButton>
-        </Hidden>
-        <Hidden lgUp>
+        </Box>
+        <Box sx={{ display: { xs: 'flex', lg: 'none' } }}>
           <IconButton
             color="inherit"
             onClick={onSidebarOpen}
           >
             <MenuIcon />
           </IconButton>
-        </Hidden>
+        </Box>
       </Toolbar>
       <Divider />
     </AppBar>
