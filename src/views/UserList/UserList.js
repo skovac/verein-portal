@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 
 import { UsersToolbar, UsersTable } from './components';
 import { getUsers } from '../../backend-calls/GetUsers';

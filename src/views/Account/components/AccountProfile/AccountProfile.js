@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Card,
   CardActions,
@@ -13,7 +13,7 @@ import {
   Divider,
   Button,
   LinearProgress
-} from '@material-ui/core';
+} from '@mui/material';
 import { getOwnInfo, ownPicUrl, uploadProfilePic, deleteProfilePic, templInfo } from './../../../../backend-calls/GetProfile'
 
 const useStyles = makeStyles(theme => ({

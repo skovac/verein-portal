@@ -1,13 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { Divider, Drawer } from '@material-ui/core';
-import PeopleIcon from '@material-ui/icons/People';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
+import { makeStyles } from '@mui/styles';
+import { Divider, Drawer } from '@mui/material';
+import PeopleIcon from '@mui/icons-material/People';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import SettingsIcon from '@mui/icons-material/Settings';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import { Profile, SidebarNav } from './components';
 

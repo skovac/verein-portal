@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Card,
   CardHeader,
@@ -10,7 +10,7 @@ import {
   Divider,
   Button,
   TextField
-} from '@material-ui/core';
+} from '@mui/material';
 
 const useStyles = makeStyles(() => ({
   root: {}

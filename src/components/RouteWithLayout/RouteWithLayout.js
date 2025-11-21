@@ -7,11 +7,11 @@ const RouteWithLayout = props => {
   return (
     <Route
       {...rest}
-      render={matchProps => (
+      element={
         <Layout>
-          <Component {...matchProps} />
+          <Component />
         </Layout>
-      )}
+      }
     />
   );
 };

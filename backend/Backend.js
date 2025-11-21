@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session)
 const sessionPool = require('pg').Pool
-const uuid = require('uuid/v1');
+const { v1: uuid } = require('uuid');
 const cors = require('cors');
 const fs = require('fs')
 require('dotenv').config()

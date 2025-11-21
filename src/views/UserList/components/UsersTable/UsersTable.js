@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Card,
   CardActions,
@@ -17,7 +17,7 @@ import {
   TableRow,
   Typography,
   TablePagination
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { getInitials } from 'helpers';
 
